@@ -1,0 +1,89 @@
+logging:
+  logs:
+    default:
+      level: INFO
+
+storage:
+  module: file_system
+  root: /data
+
+apps:
+  tls:
+    certificates:
+      automate:
+        - livekit.speaksy.online
+        - turn.speaksy.online
+        - ops.speaksy.online
+
+  http:
+    servers:
+      ops_dashboard:
+        listen:
+          - ":80"
+        routes:
+          - match:
+              - host:
+                  - ops.speaksy.online
+            handle:
+              - handler: static_response
+                headers:
+                  Location:
+                    - "https://{http.request.host}{http.request.uri}"
+                status_code: 308
+
+      ops_dashboard_tls:
+        listen:
+          - ":8443"
+        routes:
+          - match:
+              - tls:
+                  sni:
+                    - "ops.speaksy.online"
+            handle:
+              - handler: tls
+              - handler: proxy
+                upstreams:
+                  - dial:
+                      - "127.0.0.1:8000"
+
+  layer4:
+    servers:
+      main:
+        listen:
+          - ":443"
+        routes:
+          - match:
+              - tls:
+                  sni:
+                    - "turn.speaksy.online"
+            handle:
+              - handler: tls
+              - handler: proxy
+                upstreams:
+                  - dial:
+                      - "151.185.45.90:5349"
+
+          - match:
+              - tls:
+                  sni:
+                    - "livekit.speaksy.online"
+            handle:
+              - handler: tls
+                connection_policies:
+                  - alpn:
+                      - "http/1.1"
+              - handler: proxy
+                upstreams:
+                  - dial:
+                      - "localhost:7880"
+
+          - match:
+              - tls:
+                  sni:
+                    - "ops.speaksy.online"
+            handle:
+              - handler: tls
+              - handler: proxy
+                upstreams:
+                  - dial:
+                      - "127.0.0.1:8443"

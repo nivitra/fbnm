@@ -1,0 +1,17 @@
+api_key: API7LQR4ha7air7
+api_secret: Lx776IFntLxOfLPpfgueC3C5FDcq7YujGNEQI7dGxupB
+ws_url: wss://livekit.speaksy.online
+
+redis:
+  address: 127.0.0.1:6379
+
+s3:
+  access_key: de0c63e736c124842adc057564f415da
+  secret: 23b9f61b83789682f8f50b2e1b04062dffe0ce8c73775dc1ff120ca2e061b051
+  endpoint: https://qkznbwjfwrufncuastyr.storage.supabase.co/storage/v1/s3
+  bucket: call-recordings
+  region: auto
+  force_path_style: true
+
+logging:
+  level: info

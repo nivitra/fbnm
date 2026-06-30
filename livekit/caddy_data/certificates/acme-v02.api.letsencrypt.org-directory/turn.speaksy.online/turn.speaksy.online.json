@@ -1,0 +1,19 @@
+{
+	"sans": [
+		"turn.speaksy.online"
+	],
+	"issuer_data": {
+		"url": "https://acme-v02.api.letsencrypt.org/acme/cert/05110b31c08c583e308760682492d63ed2d2",
+		"ca": "https://acme-v02.api.letsencrypt.org/directory",
+		"account": "https://acme-v02.api.letsencrypt.org/acme/acct/3471152146",
+		"renewal_info": {
+			"suggestedWindow": {
+				"start": "2026-08-23T08:24:17Z",
+				"end": "2026-08-25T03:35:07Z"
+			},
+			"_uniqueIdentifier": "uVnyjs8i8IbTN0j_dhQYuoLYVYc.BRELMcCMWD4wh2BoJJLWPtLS",
+			"_retryAfter": "2026-06-30T17:41:12.403914973Z",
+			"_selectedTime": "2026-08-25T00:19:49Z"
+		}
+	}
+}

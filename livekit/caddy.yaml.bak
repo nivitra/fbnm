@@ -1,0 +1,40 @@
+logging:
+  logs:
+    default:
+      level: INFO
+storage:
+  "module": "file_system"
+  "root": "/data"
+apps:
+  tls:
+    certificates:
+      automate:
+        - livekit.speaksy.online
+        - turn.speaksy.online
+  layer4:
+    servers:
+      main:
+        listen: [":443"]
+        routes:
+          - match:
+            - tls:
+                sni:
+                  - "turn.speaksy.online"
+            handle:
+              - handler: tls
+              - handler: proxy
+                upstreams:
+                  - dial: ["151.185.45.90:5349"]
+          - match:
+              - tls:
+                  sni:
+                    - "livekit.speaksy.online"
+            handle:
+              - handler: tls
+                connection_policies:
+                  - alpn: ["http/1.1"]
+              - handler: proxy
+                upstreams:
+                  - dial: ["localhost:7880"]
+
+
